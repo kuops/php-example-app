@@ -21,7 +21,7 @@ pipeline {
             steps {
                 container('composer') {
                     script {
-                        getbranch = 'echo ${GIT_BRANCH}|grep -Po \'\\w+$\''
+                        getbranch = 'echo ${GIT_BRANCH}|grep -Eo \'[^/]+$\''
                         BUILD_TAG = sh (
                             script: getbranch,
                             returnStdout: true).trim()
