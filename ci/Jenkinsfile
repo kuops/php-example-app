@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     BUILD_TAG = sh (
-                        script: "echo ${GIT_BRANCH} |grep -Po '\\w+$'",
+                        script: "echo ${GIT_BRANCH} |grep -Po '[^/]+$'",
                         returnStdout: true).trim()
                 }
             }
