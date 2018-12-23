@@ -1,0 +1,59 @@
+pipeline {
+    
+    agent {
+        kubernetes {
+            label 'php-build-pod'
+            defaultContainer 'jnlp'
+            yamlFile 'ci/KubernetesPod.yaml'
+        }
+    }
+
+    options {
+        timestamps()
+        ansiColor('xterm')
+        buildDiscarder logRotator(artifactDaysToKeepStr: '7', artifactNumToKeepStr: '30', daysToKeepStr: '7', numToKeepStr: '30')
+        disableConcurrentBuilds()
+    }
+    
+    stages {
+        
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                container('composer') {
+                    sh 'composer install'
+                }
+            }
+        }
+        
+        stage('Generating key') {
+            steps {
+                container('composer') {
+                    sh 'mv .env.example .env && php artisan key:generate'
+                }
+            }
+        }
+        
+        stage('Run PHPunit') {
+            steps {
+                container('composer') {
+                    sh './vendor/bin/phpunit'
+                }
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                container('docker') {
+                    sh 'docker build -t docker.k8s.kuops.com/php-example-app:${GIT_BRANCH} .'
+                }
+            }
+        }
+        
+    }
+}

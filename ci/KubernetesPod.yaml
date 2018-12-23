@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: php-build
+spec:
+  containers:
+  - name: composer
+    image: composer:1.8.0
+    command:
+    - cat
+    tty: true
+  - name: docker
+    image: docker:18.06
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+      name: docker-sock
+    - mountPath: /root/.docker/config.json
+      name: docker-push-config
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock
+  - name: docker-push-config
+    hostPath:
+      path: /root/.docker/config.json
