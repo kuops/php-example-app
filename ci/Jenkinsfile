@@ -16,13 +16,13 @@ pipeline {
     }
     
     stages {
-        
-        stage('Checkout') {
+
+        stage('Printenv') {
             steps {
-                checkout scm
+                sh 'printenv'
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
                 container('composer') {
@@ -50,7 +50,11 @@ pipeline {
         stage('Build Image') {
             steps {
                 container('docker') {
-                    sh 'docker build -t docker.k8s.kuops.com/php-example-app:${GIT_BRANCH} .'
+                    sh """
+                        echo "build"
+                        #docker build -t docker.k8s.kuops.com/php-example-app:${GIT_BRANCH} .
+                        #docker push docker.k8s.kuops.com/php-example-app:${GIT_BRANCH}
+                    """
                 }
             }
         }
