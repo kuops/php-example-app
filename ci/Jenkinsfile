@@ -19,10 +19,13 @@ pipeline {
 
         stage('Get BuildTag') {
             steps {
-                script {
-                    BUILD_TAG = sh (
-                        script: "echo ${GIT_BRANCH} |grep -Po '[^/]+$'",
-                        returnStdout: true).trim()
+                container('composer') {
+                    script {
+                        getbranch = 'echo ${GIT_BRANCH}|grep -Po \'\\w+$\''
+                        BUILD_TAG = sh (
+                            script: getbranch,
+                            returnStdout: true).trim()
+                    }
                 }
             }
         }
