@@ -26,7 +26,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 container('composer') {
-                    sh 'composer install'
+                    sh """
+                        composer config repo.packagist composer https://packagist.phpcomposer.com
+                        composer install
+                    """
                 }
             }
         }
