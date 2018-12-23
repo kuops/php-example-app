@@ -17,9 +17,13 @@ pipeline {
     
     stages {
 
-        stage('Printenv') {
+        stage('Get BuildTag') {
             steps {
-                sh 'printenv'
+                script {
+                    BUILD_TAG = sh (
+                        script: "echo ${GIT_BRANCH} |grep -Po '\w+$'",
+                        returnStdout: true).trim()
+                }
             }
         }
 
@@ -54,7 +58,6 @@ pipeline {
             steps {
                 container('docker') {
                     sh """
-                        BUILD_TAG=${GIT_BRANCH#*/}
                         docker build -t docker.k8s.kuops.com/php-example-app:${BUILD_TAG} .
                         docker push docker.k8s.kuops.com/php-example-app:${BUILD_TAG}
                     """
