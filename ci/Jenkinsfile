@@ -61,8 +61,8 @@ pipeline {
             steps {
                 container('docker') {
                     sh """
-                        docker build -t docker.k8s.kuops.com/php-example-app:${BUILD_TAG} .
-                        docker push docker.k8s.kuops.com/php-example-app:${BUILD_TAG}
+                        docker build -t docker.k8s.kuops.com/php-example-app:${BUILD_TAG}-${BUILD_NUMBER} .
+                        docker push docker.k8s.kuops.com/php-example-app:${BUILD_TAG}-${BUILD_NUMBER}
                     """
                 }
             }
