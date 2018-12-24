@@ -10,6 +10,9 @@ spec:
     command:
     - cat
     tty: true
+    volumeMounts:
+    - mountPath: /tmp
+      name: composer-home
   - name: docker
     image: docker:18.06
     command:
@@ -30,3 +33,6 @@ spec:
       items:
       - key: .dockerconfigjson
         path: config.json
+  - name: composer-home
+    persistentVolumeClaim:
+      claimName: composer-home
