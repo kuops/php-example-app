@@ -18,12 +18,15 @@ spec:
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
-    - mountPath: /root/.docker/config.json
+    - mountPath: "/root/.docker"
       name: docker-push-config
   volumes:
   - name: docker-sock
     hostPath:
       path: /var/run/docker.sock
   - name: docker-push-config
-    hostPath:
-      path: /root/.docker/config.json
+    secret:
+      secretName: regcred
+      items:
+      - key: .dockerconfigjson
+        path: config.json
