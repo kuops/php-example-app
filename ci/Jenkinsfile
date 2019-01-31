@@ -12,6 +12,10 @@ pipeline {
         pollSCM('*/2 * * * 1-5')
     }
     
+    environment { 
+        REGISTRY_URL = 'docker.k8s.kuops.com'
+    }
+    
     options {
         timestamps()
         ansiColor('xterm')
@@ -65,8 +69,8 @@ pipeline {
             steps {
                 container('docker') {
                     sh """
-                        docker build -t docker.k8s.kuops.com/php-example-app:${BUILD_TAG}-${BUILD_NUMBER} .
-                        docker push docker.k8s.kuops.com/php-example-app:${BUILD_TAG}-${BUILD_NUMBER}
+                        docker build -t ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER} .
+                        docker push ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER}
                     """
                 }
             }
