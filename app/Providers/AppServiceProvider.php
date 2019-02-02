@@ -18,12 +18,9 @@ class AppServiceProvider extends ServiceProvider
     }
     */
     
-    public function boot(UrlGenerator $url)
+    public function boot()
     {
-        if(env('APP_ENV') !== 'local')
-        {
-            $url->forceScheme('https');
-        }
+        URL::forceScheme('https');
     }
 
     /**
