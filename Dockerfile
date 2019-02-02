@@ -9,7 +9,7 @@ RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
     && composer install  --no-ansi --no-dev --no-interaction --optimize-autoloader
 
 FROM kuopsme/php:7.2-fpm-alpine
-WORKDIR /var/www
+WORKDIR /code
 USER www-data
 COPY --from=build --chown=www-data /var/www ./
 
