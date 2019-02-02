@@ -11,7 +11,6 @@
 |
 */
 
-/*
 Route::get('/', function () {
     return view('welcome');
 });
@@ -19,10 +18,8 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
-*/
-Route::get('/', function () {
-    Voyager::routes();
-});
+
+
 
 
 
