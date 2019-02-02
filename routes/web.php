@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], ['middleware' => 'forceSsl',function () {
+Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-}]);
+})->middleware('forceSsl');
 
 
 
