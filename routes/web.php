@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['scheme' => 'https'],['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
