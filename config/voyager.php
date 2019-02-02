@@ -59,7 +59,8 @@ return [
     |
     */
 
-    'assets_path' => '/vendor/tcg/voyager/assets',
+    //'assets_path' => '/vendor/tcg/voyager/assets',
+    'assets_path' => env('APP_URL').'/public/vendor/tcg/voyager/assets' 
 
     /*
     |--------------------------------------------------------------------------
