@@ -4,6 +4,15 @@ metadata:
   labels:
     app: php-build
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "node-role.kubernetes.io/jenkins"
+            operator: In
+            values:
+            - jenkins
   containers:
   - name: composer
     image: composer:1.8.0
@@ -34,5 +43,6 @@ spec:
       - key: .dockerconfigjson
         path: config.json
   - name: composer-home
-    persistentVolumeClaim:
-      claimName: composer-home
+    hostPath:
+      path: /data/composer-cache
+      type: Directory
