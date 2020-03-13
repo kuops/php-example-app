@@ -65,6 +65,8 @@ pipeline {
             steps {
                 container('docker') {
                     sh """
+                        whoami
+                        ls ~/.docker
                         docker build -t ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER} .
                         docker push ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER}
                     """
