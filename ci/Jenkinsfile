@@ -9,7 +9,7 @@ pipeline {
     }
 
     parameters {
-        string defaultValue: 'kuops/php-example-app', description: 'docker image push format repo example kuops', name: 'REGISTRY_URL', trim: false
+        string defaultValue: 'kuops', description: 'docker image push format repo example kuops', name: 'REGISTRY_URL', trim: false
     }
 
     options {
@@ -65,10 +65,8 @@ pipeline {
             steps {
                 container('docker') {
                     sh """
-                        whoami
-                        ls ~/.docker
-                        docker build -t ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER} .
-                        docker push ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER}
+                        docker build -t ${REGISTRY_URL}/php-example-app:${BUILD_TAG} .
+                        docker push ${REGISTRY_URL}/php-example-app:${BUILD_TAG}
                     """
                 }
             }
