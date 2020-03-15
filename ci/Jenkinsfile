@@ -1,5 +1,5 @@
 pipeline {
-    
+
     agent {
         kubernetes {
             label 'php-build-pod'
@@ -7,22 +7,18 @@ pipeline {
             yamlFile 'ci/KubernetesPod.yaml'
         }
     }
-    
-    triggers {
-        pollSCM('*/2 * * * 1-5')
+
+    parameters {
+        string defaultValue: 'kuops', description: 'docker image push format repo example kuops', name: 'REGISTRY_URL', trim: false
     }
-    
-    environment { 
-        REGISTRY_URL = 'docker.k8s.kuops.com'
-    }
-    
+
     options {
         timestamps()
         ansiColor('xterm')
         buildDiscarder logRotator(artifactDaysToKeepStr: '7', artifactNumToKeepStr: '30', daysToKeepStr: '7', numToKeepStr: '30')
         disableConcurrentBuilds()
     }
-    
+
     stages {
 
         stage('Get BuildTag') {
@@ -42,13 +38,13 @@ pipeline {
             steps {
                 container('composer') {
                     sh """
-                        composer config repo.packagist composer https://packagist.phpcomposer.com
+                        composer config repo.packagist composer https://mirrors.aliyun.com/composer
                         composer install
                     """
                 }
             }
         }
-        
+
         stage('Generating key') {
             steps {
                 container('composer') {
@@ -56,7 +52,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Run PHPunit') {
             steps {
                 container('composer') {
@@ -69,12 +65,12 @@ pipeline {
             steps {
                 container('docker') {
                     sh """
-                        docker build -t ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER} .
-                        docker push ${REGISTRY_URL}/php-example-app:${BUILD_TAG}-${BUILD_NUMBER}
+                        docker build -t ${REGISTRY_URL}/php-example-app:${BUILD_TAG} .
+                        docker push ${REGISTRY_URL}/php-example-app:${BUILD_TAG}
                     """
                 }
             }
         }
-        
+
     }
 }

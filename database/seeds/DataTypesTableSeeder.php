@@ -19,7 +19,7 @@ class DataTypesTableSeeder extends Seeder
                 'icon'                  => 'voyager-person',
                 'model_name'            => 'TCG\\Voyager\\Models\\User',
                 'policy_name'           => 'TCG\\Voyager\\Policies\\UserPolicy',
-                'controller'            => '',
+                'controller'            => 'TCG\\Voyager\\Http\\Controllers\\VoyagerUserController',
                 'generate_permissions'  => 1,
                 'description'           => '',
             ])->save();
@@ -47,7 +47,7 @@ class DataTypesTableSeeder extends Seeder
                 'display_name_plural'   => __('voyager::seeders.data_types.role.plural'),
                 'icon'                  => 'voyager-lock',
                 'model_name'            => 'TCG\\Voyager\\Models\\Role',
-                'controller'            => '',
+                'controller'            => 'TCG\\Voyager\\Http\\Controllers\\VoyagerRoleController',
                 'generate_permissions'  => 1,
                 'description'           => '',
             ])->save();
