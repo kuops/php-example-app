@@ -40,7 +40,6 @@ pipeline {
                     sh """
                         composer config repo.packagist composer https://mirrors.aliyun.com/composer
                         composer install
-                        find vendor -name "*.php" -exec sed -i s@btn-primary@btn-success@g {} \;
                     """
                 }
             }
